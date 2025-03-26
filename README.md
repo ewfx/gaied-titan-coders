@@ -17,8 +17,8 @@
 A brief overview of your project and its purpose. Mention which problem statement are your attempting to solve. Keep it concise and engaging.
 
 ## 🎥 Demo
-🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
+🔗 [Live Demo](#) (artifacts/demo/gaied-titan-coders-video.mkv)  
+📹 [Video Demo](#) (artifacts/demo/gaied-titan-coders-video.mkv)  
 🖼️ Screenshots:
 
 ![Screenshot 1](link-to-image)
