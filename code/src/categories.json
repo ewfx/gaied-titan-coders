@@ -1,0 +1,50 @@
+{
+    "categories": {
+        "Adjustments": {
+            "subcategories": {}
+        },
+        "AU Transfer": {
+            "subcategories": {}
+        },
+        "Closing Notice": {
+            "subcategories": {
+                "Reallocation Fees": {},
+                "Amendment Fees": {},
+                "Reallocation Principal": {}
+            }
+        },
+        "Commitment": {
+            "subcategories": {
+                "Change Cashless Roll": {},
+                "Decrease": {},
+                "Increase": {}
+            }
+        },
+        "Fee Payment": {
+            "subcategories": {
+                "Ongoing fee": {},
+                "Letter of Credit fee": {}
+            }
+        },
+        "Money Movement - Inbound": {
+            "subcategories": {
+                "Principal": {},
+                "Interest": {},
+                "Principal + Interest": {},
+                "Principal+lnterest+ Fee": {}
+            }
+        },
+        "Money Movement - Outbound": {
+            "subcategories": {
+                "Foreign Currency": {},
+                "Timebound": {}
+            }
+        },
+        "Loan Application": {
+            "subcategories": {
+                "Loan Application Approved": {},
+                "Loan Application Rejected": {}
+            }
+        }
+    }
+}
