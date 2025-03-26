@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email View - Email Classifier and Duplicate Check</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .nav-menu {
+            background-color: #333;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .nav-menu a:hover {
+            background-color: #555;
+        }
+        .nav-menu a.active {
+            background-color: #007bff;
+        }
+        .email-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .email-header h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .email-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .email-meta dt {
+            font-weight: bold;
+            color: #666;
+        }
+        .email-body {
+            white-space: pre-wrap;
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .classification-section {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .classification-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .classification-details {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+        }
+        .classification-details dt {
+            font-weight: bold;
+            color: #666;
+        }
+        .attachments-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .attachments-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .attachment-list {
+            list-style: none;
+            padding: 0;
+        }
+        .attachment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        .download-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+        .back-btn {
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('categories') }}">Category Management</a></li>
+            </ul>
+        </nav>
+
+        <div class="email-header">
+            <h2>Email Details</h2>
+            <dl class="email-meta">
+                <dt>Subject:</dt>
+                <dd>{{ email.subject }}</dd>
+                <dt>From:</dt>
+                <dd>{{ email.from }}</dd>
+                <dt>To:</dt>
+                <dd>{{ email.to }}</dd>
+                <dt>Date:</dt>
+                <dd>{{ email.date }}</dd>
+            </dl>
+        </div>
+
+        {% if email.classification %}
+        <div class="classification-section">
+            <h3>Classification Results</h3>
+            <dl class="classification-details">
+                <dt>Category:</dt>
+                <dd>{{ email.classification.category }}</dd>
+                <dt>Subcategory:</dt>
+                <dd>{{ email.classification.subcategory }}</dd>
+                <dt>Explanation:</dt>
+                <dd>{{ email.classification.explanation }}</dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        <div class="email-body">
+            <h3>Email Body</h3>
+            {{ email.body }}
+        </div>
+
+        {% if email.attachments %}
+        <div class="attachments-section">
+            <h3>Attachments</h3>
+            <ul class="attachment-list">
+                {% for attachment in email.attachments %}
+                <li class="attachment-item">
+                    <span>{{ attachment.filename }}</span>
+                    <a href="{{ url_for('download_file', filename=attachment.filename) }}" class="download-btn">Download</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Email Classifier and Duplicate Check</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .nav-menu {
+            background-color: #333;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .nav-menu a:hover {
+            background-color: #555;
+        }
+        .nav-menu a.active {
+            background-color: #4CAF50;
+        }
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .welcome-section h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+        .welcome-section h2 {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .welcome-section p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1em;
+        }
+        .upload-section {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 2px dashed #dee2e6;
+        }
+        .upload-section h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .file-input-wrapper {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+        .file-input {
+            display: none;
+        }
+        .file-label {
+            display: block;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border: 2px dashed #4CAF50;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-label:hover {
+            background-color: #e9ecef;
+            border-color: #45a049;
+        }
+        .file-label i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+        .file-label span {
+            color: #495057;
+            font-size: 1.1em;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .submit-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .flash-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+                <li><a href="{{ url_for('categories') }}">Category Management</a></li>
+            </ul>
+        </nav>
+
+        <div class="welcome-section">
+            <h1>Welcome to Email Classifier and Duplicate Check</h1>
+            <h2>Your Email Organization Solution</h2>
+            <p>This application helps you classify email files, check for duplicates, and organize them into categories. Use the navigation menu above to access different features.</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="upload-section">
+            <h2>Upload Email File</h2>
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="upload-form">
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="file" class="file-input" accept=".eml" required>
+                    <label for="file" class="file-label">
+                        <i>📧</i>
+                        <span>Choose an .eml file or drag it here</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-btn" disabled>Upload and Classify</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Enable submit button when file is selected
+        const fileInput = document.getElementById('file');
+        const submitBtn = document.getElementById('submit-btn');
+        const fileLabel = document.querySelector('.file-label span');
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                submitBtn.disabled = false;
+                fileLabel.textContent = this.files[0].name;
+            } else {
+                submitBtn.disabled = true;
+                fileLabel.textContent = 'Choose an .eml file or drag it here';
+            }
+        });
+
+        // Handle drag and drop
+        const dropZone = document.querySelector('.file-input-wrapper');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('highlight');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('highlight');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            
+            if (files.length > 0) {
+                submitBtn.disabled = false;
+                fileLabel.textContent = files[0].name;
+            }
+        }
+    </script>
+</body>
+</html> 
