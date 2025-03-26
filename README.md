@@ -27,8 +27,27 @@ A brief overview of your project and its purpose. Mention which problem statemen
 What inspired you to create this project? Describe the problem you're solving.
 
 ## ⚙️ What It Does
-Explain the key features and functionalities of your project.
+Here are the key features of the project:
 
+1. Email Upload and Processing
+   Users can upload .eml files through the web interface.
+   The application processes the uploaded email to extract:
+      Metadata: Subject, sender, recipient, and date.
+      Body: Decodes and extracts the email content.
+      Attachments: Saves attachments to a local directory.
+2. Email Classification
+   Uses Mistral AI to classify emails into predefined categories and subcategories.
+   Provides feedback if the email cannot be classified.
+3. Category Management
+   Users can:
+      Add new categories.
+      Add subcategories to existing categories.
+      Delete categories or subcategories.
+      Categories are managed using the CategoryManager module.
+4. File Management
+   Uploaded files are securely saved in a designated uploads folder.
+   Attachments from emails are extracted and stored locally.
+   
 ## 🛠️ How We Built It
 Briefly outline the technologies, frameworks, and tools used in development.
 
@@ -38,23 +57,24 @@ Describe the major technical or non-technical challenges your team encountered.
 ## 🏃 How to Run
 1. Clone the repository  
    ```sh
-   git clone https://github.com/your-repo.git
+   git clone https://github.com/ewfx/gaied-titan-coders.git
    ```
 2. Install dependencies  
    ```sh
-   npm install  # or pip install -r requirements.txt (for Python)
+   pip install -r requirements.txt 
    ```
 3. Run the project  
    ```sh
-   npm start  # or python app.py
+    python app.py
    ```
 
 ## 🏗️ Tech Stack
-- 🔹 Frontend: React / Vue / Angular
-- 🔹 Backend: Node.js / FastAPI / Django
-- 🔹 Database: PostgreSQL / Firebase
-- 🔹 Other: OpenAI API / Twilio / Stripe
+- Python: The core programming language used for backend development, file handling, and email processing.
+- Flask: A lightweight web framework for building the web application, handling routes, and managing user interactions.
+- Mistral AI: A library used for email classification, leveraging AI to categorize emails into predefined categories and subcategories.
 
 ## 👥 Team
-- **Your Name** - [GitHub](#) | [LinkedIn](#)
-- **Teammate 2** - [GitHub](#) | [LinkedIn](#)
+- Sainath Thadaka 
+- Kalesha
+- Lokeshwaran
+- Jeeva
